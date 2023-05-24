@@ -7,18 +7,12 @@ part of 'play_bloc.dart';
 // class PlayInitial extends PlayState {}
 
 
-class PlayState {
+class PlayState extends Equatable{
   final String value;
   PlayState(this.value);
-
-  @override
-  bool operator ==(covariant PlayState other) {
-    if (identical(this, other)) return true;
   
-    return 
-      other.value == value;
-  }
-
   @override
-  int get hashCode => value.hashCode;
+  List<Object?> get props => [value];
+
+  
 }
