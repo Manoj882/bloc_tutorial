@@ -1,6 +1,8 @@
 import 'package:bloc_tutorial/blocs/welcome_bloc/welcome_bloc.dart';
 import 'package:bloc_tutorial/blocs/welcome_bloc/welcome_event.dart';
 import 'package:bloc_tutorial/blocs/welcome_bloc/welcome_state.dart';
+import 'package:bloc_tutorial/common/values/colors.dart';
+import 'package:bloc_tutorial/main.dart';
 
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,7 @@ class Welcomepage extends StatefulWidget {
 }
 
 class _WelcomepageState extends State<Welcomepage> {
+  PageController pageController = PageController(initialPage: 0);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,6 +31,7 @@ class _WelcomepageState extends State<Welcomepage> {
               alignment: Alignment.topCenter,
               children: [
                 PageView(
+                  controller: pageController,
                   onPageChanged: (index) {
                     state.page = index;
                     BlocProvider.of<WelcomeBloc>(context).add(WelcomeEvent());
@@ -66,8 +70,8 @@ class _WelcomepageState extends State<Welcomepage> {
                     dotsCount: 3,
                     mainAxisAlignment: MainAxisAlignment.center,
                     decorator: DotsDecorator(
-                      color: Colors.grey,
-                      activeColor: Colors.blue,
+                      color: AppColors.primaryThirdElementText,
+                      activeColor: AppColors.primaryElement,
                       size: const Size.square(8.0),
                       activeSize: const Size(18.0, 8.0),
                       activeShape: RoundedRectangleBorder(
@@ -106,7 +110,7 @@ class _WelcomepageState extends State<Welcomepage> {
           child: Text(
             title,
             style: TextStyle(
-              color: Colors.black,
+              color: AppColors.primaryText,
               fontSize: 24.sp,
               fontWeight: FontWeight.normal,
             ),
@@ -118,35 +122,53 @@ class _WelcomepageState extends State<Welcomepage> {
           child: Text(
             subTitle,
             style: TextStyle(
-              color: Colors.black.withOpacity(0.5),
+              color: AppColors.primarySecondaryElementText,
               fontSize: 14.sp,
               fontWeight: FontWeight.normal,
             ),
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(top: 100.h, left: 25.w, right: 25.w),
-          width: 325.w,
-          height: 50.h,
-          decoration: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.all(Radius.circular(15.w)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 2,
-                offset: Offset(0, 1),
-              ),
-            ],
-          ),
-          child: Center(
-            child: Text(
-              buttonName,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.normal,
+        GestureDetector(
+          onTap: () {
+            //within 0-2 index
+            if (index < 3) {
+              //animation
+              pageController.animateToPage(
+                index,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeIn,
+              );
+            } else {
+              //jump to a new page
+              //Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyHomePage()));
+              // Navigator.of(context).pushNamedAndRemoveUntil('/myHomePage', (route) => false);
+              Navigator.of(context).pushNamedAndRemoveUntil('signIn', (route) => false);
+            }
+          },
+          child: Container(
+            margin: EdgeInsets.only(top: 100.h, left: 25.w, right: 25.w),
+            width: 325.w,
+            height: 50.h,
+            decoration: BoxDecoration(
+              color: AppColors.primaryElement,
+              borderRadius: BorderRadius.all(Radius.circular(15.w)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 2,
+                  offset: Offset(0, 1),
+                ),
+              ],
+            ),
+            child: Center(
+              child: Text(
+                buttonName,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
             ),
           ),

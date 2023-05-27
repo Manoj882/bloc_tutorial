@@ -4,6 +4,7 @@ import 'package:bloc_tutorial/bloc_counter_example/app_states.dart';
 import 'package:bloc_tutorial/blocs/welcome_bloc/welcome_bloc.dart';
 import 'package:bloc_tutorial/equatable_example/bloc/play_bloc.dart';
 import 'package:bloc_tutorial/equatable_example/screens/play_screen.dart';
+import 'package:bloc_tutorial/pages/sign_in/sign_in.dart';
 import 'package:bloc_tutorial/pages/welcome_pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,23 +20,42 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      // create: (context) => AppBlocs(),
-      create: (context) => WelcomeBloc(),
-      child: ScreenUtilInit(builder: (context, child) {
-        return MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          // home: const MyHomePage(),
-          // home: const Welcomepage(),
-          home: BlocProvider(
-            create: (context) => PlayBloc(),
-            child: PlayScreen(),
-          ),
-        );
-      }),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          // lazy: false,
+          create: (context) => WelcomeBloc(),
+        ),
+        BlocProvider(
+          // lazy: false,
+          create: (context) => AppBlocs(),
+        ),
+      ],
+      child: ScreenUtilInit(
+        builder: (context, child) {
+          return MaterialApp(
+            title: 'Flutter Demo',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              appBarTheme: const AppBarTheme(
+                elevation: 0,
+                backgroundColor: Colors.white,
+              ),
+              // primarySwatch: Colors.blue,
+            ),
+            // home: const MyHomePage(),
+            home: const Welcomepage(),
+            routes: {
+              '/myHomePage': (context) => const MyHomePage(),
+              'signIn': (context) => const SignIn(),
+            },
+            // home: BlocProvider(
+            //   create: (context) => PlayBloc(),
+            //   child: PlayScreen(),
+            // ),
+          );
+        },
+      ),
     );
   }
 }
@@ -59,7 +79,7 @@ class MyHomePage extends StatelessWidget {
               ),
               Text(
                 '${BlocProvider.of<AppBlocs>(context).state.counter}',
-                style: Theme.of(context).textTheme.headline4,
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
             ],
           );
@@ -69,12 +89,14 @@ class MyHomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           FloatingActionButton(
+            heroTag: 'heroTag1',
             onPressed: () =>
                 BlocProvider.of<AppBlocs>(context).add(Increment()),
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
           FloatingActionButton(
+            heroTag: 'heroTag2',
             onPressed: () =>
                 BlocProvider.of<AppBlocs>(context).add(Decrement()),
             tooltip: 'Decrement',
