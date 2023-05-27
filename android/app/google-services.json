@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "648452476559",
+    "project_id": "bloc-tutorial-6ade3",
+    "storage_bucket": "bloc-tutorial-6ade3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648452476559:android:2ecfca31e6462ba192aafa",
+        "android_client_info": {
+          "package_name": "com.example.bloc_tutorial"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6JSexrNGMcfFqKTs8Qxlol6AI6-d78Vw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

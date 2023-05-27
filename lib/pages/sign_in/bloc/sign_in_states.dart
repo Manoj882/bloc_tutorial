@@ -1,4 +1,6 @@
-class SignInState {
+import 'package:equatable/equatable.dart';
+
+class SignInState  extends Equatable{
   final String email;
   final String password;
 
@@ -18,4 +20,8 @@ class SignInState {
     );
 
   }
+  
+  @override
+
+  List<Object?> get props => [email, password];
 }
